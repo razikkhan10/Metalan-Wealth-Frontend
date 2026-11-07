@@ -61,22 +61,22 @@ export default function PublicNavbar() {
         </nav>
 
         <div className="ml-auto hidden items-center gap-[31px] lg:flex">
-          <div className="whitespace-nowrap font-mono text-[13px] font-semibold tracking-[0] text-[#00D4AA]">
+          {/* <div className="whitespace-nowrap font-mono text-[13px] font-semibold tracking-[0] text-[#00D4AA]">
             ₣1 FAIX = $0.80 ↗2.4%
-          </div>
+          </div> */}
 
           <Link
             to={ROUTES.LOGIN}
             className="whitespace-nowrap text-[13px] font-medium !text-[#D4A853] transition-colors duration-200 hover:text-[#F1EEE7]"
           >
-            Sign In
+            {/* Sign In */}
           </Link>
 
           <Link
             to={ROUTES.LOGIN}
             className="flex h-[42px] w-[129px] items-center justify-center rounded-full bg-gradient-to-r from-[#D4A853] to-[#B87333] px-[24px] py-[12px] !text-[13px] font-bold !text-[#0A0A0A] transition-transform duration-200 hover:scale-[1.03]"
           >
-            Launch App
+            Login 
           </Link>
         </div>
 

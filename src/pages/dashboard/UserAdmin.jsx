@@ -207,7 +207,7 @@ const QUICK_ACTIONS = [
   },
 ];
 
-const fmt = (n, d = 4) =>
+const fmt = (n, d = 2) =>
   n.toLocaleString("en-US", {
     minimumFractionDigits: d,
     maximumFractionDigits: d,
@@ -2018,17 +2018,40 @@ function Dashboard({
   const topFunds = [...funds]
     .sort((a, b) => (Number(b.soldUnits) || 0) - (Number(a.soldUnits) || 0))
     .slice(0, 5);
+  // const topUsers = (dashboardData?.topInvestors?.list || [])
+  //   .slice(0, 5)
+  //   .map((u) => ({
+  //     userId: u.userId,
+  //     name: u.fullName,
+  //     initials: u.initials,
+  //     invested: Number(u.usedFaixToken) || 0,
+  //     total:
+  //       Number(u.totalFaixToken ?? u.totalAmount ?? u.totalPortfolioValue) || 0,
+  //     returns: Number(u.monthlyGrowthPercent) || 0,
+  //     propertiesCount: Number(u.propertiesCount) || 0,
+  //     fundsJoinedCount: Number(u.fundsJoinedCount) || 0,
+  //   }));
+
   const topUsers = (dashboardData?.topInvestors?.list || [])
-    .slice(0, 5)
     .map((u) => ({
       userId: u.userId,
       name: u.fullName,
       initials: u.initials,
+
       invested: Number(u.usedFaixToken) || 0,
+
+      total:
+        Number(u.totalFaixToken ?? u.totalAmount ?? u.totalPortfolioValue) || 0,
+
       returns: Number(u.monthlyGrowthPercent) || 0,
       propertiesCount: Number(u.propertiesCount) || 0,
       fundsJoinedCount: Number(u.fundsJoinedCount) || 0,
-    }));
+    }))
+    // 🔥 Highest Total Amount first
+    .sort((a, b) => b.total - a.total)
+    // Top 5 only
+    .slice(0, 5);
+
   /* ── top 5 investments — authenticated API data only ── */
   const apiFundInvestments = Array.isArray(dashboardData?.myFundInvestments)
     ? dashboardData.myFundInvestments
@@ -2296,8 +2319,6 @@ function Dashboard({
                     </p>
                   </div>
                 </div>
-
-                
               </div>
 
               <div className="mt-8 grid gap-6 sm:mt-12 lg:grid-cols-[1.15fr_1fr] lg:items-end">
@@ -3010,36 +3031,49 @@ function Dashboard({
                     key={u.userId}
                     className="flex items-center gap-3 px-5 py-3.5 transition-colors hover:bg-white/[0.03]"
                   >
+                    {/* Rank: 1, 2, 3, 4, 5 */}
                     <RankBadge rank={i + 1} />
 
+                    {/* User Avatar */}
                     <span
-                      className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-xs font-semibold ring-1 ${AVATAR_TONES[i % AVATAR_TONES.length]}`}
+                      className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-xs font-semibold ring-1 ${
+                        AVATAR_TONES[i % AVATAR_TONES.length]
+                      }`}
                     >
                       {u.initials || initials(u.name)}
                     </span>
 
+                    {/* User Information */}
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium text-white">
                         {u.name}
                       </p>
+
                       <p className="mt-0.5 truncate text-[10px] text-slate-500">
                         User ID: {u.userId}
                       </p>
+
                       <p className="mt-1 truncate text-[10px] text-slate-600">
                         {u.propertiesCount} properties · {u.fundsJoinedCount}{" "}
                         funds
                       </p>
                     </div>
 
+                    {/* Total FAIX */}
                     <div className="shrink-0 text-right">
                       <p className="text-sm font-semibold tabular-nums text-white">
-                        {fmt(u.invested)}
+                        {fmt(u.total)}
+
                         <span className="ml-1 text-[10px] font-normal text-slate-500">
                           FAIX
                         </span>
                       </p>
+
+                      {/* Monthly Growth */}
                       <p
-                        className={`mt-1 text-[10px] tabular-nums ${u.returns >= 0 ? "text-emerald-300" : "text-rose-300"}`}
+                        className={`mt-1 text-[10px] tabular-nums ${
+                          u.returns >= 0 ? "text-emerald-300" : "text-rose-300"
+                        }`}
                       >
                         {u.returns >= 0 ? "+" : ""}
                         {u.returns.toFixed(2)}%
@@ -3051,7 +3085,7 @@ function Dashboard({
             </div>
 
             {/* TOP INVESTMENTS */}
-            <div data-anim="section" className={`${CARD} overflow-hidden`}>
+            {/* <div data-anim="section" className={`${CARD} overflow-hidden`}>
               <div className="border-b border-white/[0.06] px-5 py-4">
                 <div className="flex items-center justify-between gap-3">
                   <div>
@@ -3112,6 +3146,99 @@ function Dashboard({
                       </div>
                     </div>
                   ))}
+                </div>
+              )}
+            </div> */}
+            {/* TOP FUNDS */}
+            {/* TOP FUNDS */}
+            {/* TOP FUNDS */}
+            <div data-anim="section" className={`${CARD} overflow-hidden`}>
+              <div className="border-b border-white/[0.06] px-5 py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-semibold text-white">
+                      Top 5 Funds
+                    </p>
+                    <p className="mt-1 text-[11px] text-slate-500">
+                      By fund value
+                    </p>
+                  </div>
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl ring-1 bg-indigo-400/10 text-indigo-300 ring-indigo-400/20">
+                    <PieChartIcon className="h-4 w-4" />
+                  </span>
+                </div>
+              </div>
+
+              {topFunds.length === 0 ? (
+                <div className="px-5 py-12 text-center">
+                  <PieChartIcon className="mx-auto h-7 w-7 text-slate-600" />
+                  <p className="mt-3 text-sm text-slate-500">
+                    No funds available
+                  </p>
+                </div>
+              ) : (
+                <div className="divide-y divide-white/[0.05]">
+                  {topFunds.map((f, i) => {
+                    const currentNav = navs[f.id] || f.nav;
+
+                    return (
+                      <div
+                        key={f.id}
+                        className="flex items-center gap-3 px-5 py-6 transition-colors hover:bg-white/[0.03]"
+                      >
+                        <RankBadge rank={i + 1} />
+
+                        <span
+                          className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ring-1 ${ACCENT.cyan}`}
+                        >
+                          <f.icon className="h-4 w-4" />
+                        </span>
+
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-medium text-white">
+                            {f.name}
+                          </p>
+                          <p className="mt-0.5 flex items-center gap-1.5 truncate text-[10px] text-slate-500">
+                            {f.category}
+                            <span
+                              className={`inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px] font-medium ring-1 ring-inset ${
+                                f.status === "Open"
+                                  ? ACCENT.emerald
+                                  : ACCENT.gold
+                              }`}
+                            >
+                              <span
+                                className={`h-1 w-1 rounded-full ${
+                                  f.status === "Open"
+                                    ? "bg-emerald-400"
+                                    : "bg-amber-300"
+                                }`}
+                              />
+                              {f.status}
+                            </span>
+                          </p>
+                        </div>
+
+                        <div className="shrink-0 text-right">
+                          <p className="text-sm font-semibold tabular-nums text-white">
+                            {fmt(currentNav, 2)}
+                            <span className="ml-1 text-[10px] font-normal text-slate-500">
+                              FAIX
+                            </span>
+                          </p>
+                          <p
+                            className={`mt-1 text-[10px] tabular-nums ${
+                              f.growth >= 0
+                                ? "text-emerald-300"
+                                : "text-rose-300"
+                            }`}
+                          >
+                            {signedPct(f.growth)}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -3241,7 +3368,7 @@ function Dashboard({
                           </p>
 
                           <p className="mt-1 text-lg font-semibold tabular-nums text-white">
-                            {fmt(currentNav, 4)}
+                            {fmt(currentNav, 2)}
                           </p>
                         </div>
 

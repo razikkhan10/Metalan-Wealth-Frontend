@@ -58,8 +58,8 @@ const FILTER_THEME_CSS = `
 
 const formatFaix = (value) =>
   Number(value || 0).toLocaleString("en-US", {
-    minimumFractionDigits: 4,
-    maximumFractionDigits: 4,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
 
 // Wrap a CSV cell in quotes and escape any quotes it contains, per RFC 4180.

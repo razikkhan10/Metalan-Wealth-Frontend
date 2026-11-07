@@ -772,14 +772,14 @@ export default function Wallet({ onNavigate = () => {} }) {
         <div>
           <p className="text-sm text-slate-400">Total wallet worth</p>
           <p className="mt-2 break-words text-3xl font-semibold tabular-nums text-white sm:text-5xl">
-            {fmt(totalWorth, 4)} <span className="ml-1 text-base font-medium text-slate-400 sm:text-lg">FAIX</span>
+            {fmt(totalWorth, 2)} <span className="ml-1 text-base font-medium text-slate-400 sm:text-lg">FAIX</span>
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-xs text-slate-200">
-              <ShieldCheck className="h-3.5 w-3.5 text-emerald-300" /> Available {fmt(faix, 4)} FAIX
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-300" /> Available {fmt(faix, 2)} FAIX
             </span>
             <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-xs text-slate-200">
-              <Coins className="h-3.5 w-3.5 text-[#e2c17f]" /> Exchange {fmt(exchange.value, 4)} FAIX
+              <Coins className="h-3.5 w-3.5 text-[#e2c17f]" /> Exchange {fmt(exchange.value, 2)} FAIX
             </span>
           </div>
           <button
@@ -812,9 +812,9 @@ export default function Wallet({ onNavigate = () => {} }) {
 
       {/* stats */}
       <section aria-label="Wallet overview" className="grid grid-cols-1 gap-3 min-[430px]:grid-cols-2 lg:grid-cols-4">
-        <StatCard icon={WalletIcon} tone="cyan" label="Available FAIX" value={fmt(faix, 4)} unit="FAIX" note="Ready to invest or withdraw" />
-        <StatCard icon={Coins} tone="gold" label="Exchange assets" value={fmt(exchange.value, 4)} unit="FAIX" change={exchange.cost > 0 ? (exchangeGain / exchange.cost) * 100 : 0} note="Value of swapped assets" />
-        <StatCard icon={ArrowDownToLine} tone="emerald" label="Deposited (30d)" value={fmt(txs.filter((t) => t.type === "Deposit").reduce((s, t) => s + t.amount, 0), 4)} unit="FAIX" note="Total top-ups" />
+        <StatCard icon={WalletIcon} tone="cyan" label="Available FAIX" value={fmt(faix, 2)} unit="FAIX" note="Ready to invest or withdraw" />
+        <StatCard icon={Coins} tone="gold" label="Exchange assets" value={fmt(exchange.value, 2)} unit="FAIX" change={exchange.cost > 0 ? (exchangeGain / exchange.cost) * 100 : 0} note="Value of swapped assets" />
+        <StatCard icon={ArrowDownToLine} tone="emerald" label="Deposited (30d)" value={fmt(txs.filter((t) => t.type === "Deposit").reduce((s, t) => s + t.amount, 0), 2)} unit="FAIX" note="Total top-ups" />
         <StatCard icon={ArrowLeftRight} tone="violet" label="Exchange fee" value={`${(EXCHANGE_FEE * 100).toFixed(2)}%`} note="Applied per swap" />
       </section>
 

@@ -529,7 +529,7 @@ export default function FundInvestments({ onNavigate = () => {} }) {
                 </p>
 
                 <p className="text-lg font-semibold tabular-nums text-[#d4af6a]">
-                  {fmt(faix, 4)}
+                  {fmt(faix, 2)}
                 </p>
               </div>
 
@@ -922,7 +922,7 @@ export default function FundInvestments({ onNavigate = () => {} }) {
                           <p className="mt-1 text-[13px] font-semibold tabular-nums text-white">
                             {fmt(
                               f.nav,
-                              4
+                              2
                             )}
                           </p>
 
@@ -1054,7 +1054,7 @@ export default function FundInvestments({ onNavigate = () => {} }) {
                           <p className="mt-1 text-[11px] font-semibold tabular-nums text-slate-200">
                             {fmt(
                               f.min,
-                              4
+                              2
                             )}{" "}
                             FAIX
                           </p>
@@ -1252,7 +1252,7 @@ function InvestForm({
           sub: f.category,
           meta: `NAV ${fmt(
             Number(navs[f.id]) || 0,
-            4
+            2
           )}`,
         }))}
       />
@@ -1289,7 +1289,7 @@ function InvestForm({
           label="Current NAV"
           value={`${fmt(
             nav,
-            4
+            2
           )} / unit`}
           accent="text-[#a37b45]"
         />
@@ -1298,7 +1298,7 @@ function InvestForm({
           label="Investment value"
           value={`₹${fmt(
             investmentAmount,
-            4
+            2
           )}`}
           accent="text-[#a37b45]"
         />
@@ -1307,7 +1307,7 @@ function InvestForm({
           label="Units you receive"
           value={fmt(
             units,
-            4
+            2
           )}
           accent="text-[#b18b45]"
         />
@@ -1316,7 +1316,7 @@ function InvestForm({
           label="Available FAIX"
           value={fmt(
             faix,
-            4
+            2
           )}
         />
 
